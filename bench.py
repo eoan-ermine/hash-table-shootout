@@ -14,7 +14,7 @@ programs = [
     'boost_map',
     'boost_flat_map',
     'boost_unordered_map',
-    'loki_assoc_vector'
+    # 'loki_assoc_vector'
     # 'google_sparse_hash_map',
     # 'google_dense_hash_map',
     # 'google_dense_hash_map_mlf_0_9',

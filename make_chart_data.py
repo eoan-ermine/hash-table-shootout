@@ -24,7 +24,7 @@ proper_names = OrderedDict([
     ('boost_map', 'boost::containers::unordered_map'),
     ('boost_flat_map', 'boost::containers::flat_map'),
     ('boost_unordered_map', 'boost::unordered_map'),
-    ('loki_assoc_vector', 'loki::AssocVector'),
+    # ('loki_assoc_vector', 'loki::AssocVector'),
     # ('google_dense_hash_map', 'google::dense_hash_map'),
     # ('qt_qhash', 'QHash'),
     # ('tsl_sparse_map', 'tsl::sparse_map'),
@@ -55,7 +55,7 @@ program_slugs = [
     'boost_map',
     'boost_flat_map',
     'boost_unordered_map',
-    'loki_assoc_vector',
+    # 'loki_assoc_vector',
     # 'google_dense_hash_map',
     # 'qt_qhash',
     # 'tsl_sparse_map',
@@ -85,7 +85,7 @@ default_programs_show = [
     'boost_map',
     'boost_flat_map',
     'boost_unordered_map',
-    'loki_assoc_vector'
+    # 'loki_assoc_vector'
 ]
 
 chart_data = {}

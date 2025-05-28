@@ -1,7 +1,7 @@
 CXX=clang++-21
 CXX_FLAGS=-stdlib=libc++ -O3 -march=native -std=c++23 -DNDEBUG
 
-all: build/boost_flat_map build/boost_map build/boost_unordered_map build/std_flat_map build/std_map build/std_unordered_map build/loki_assoc_vector
+all: build/boost_flat_map build/boost_map build/boost_unordered_map build/std_flat_map build/std_map build/std_unordered_map
 
 build/boost_flat_map: src/boost_flat_map.cc src/template.c
 	$(CXX) $(CXX_FLAGS) -lm -o build/boost_flat_map src/boost_flat_map.cc

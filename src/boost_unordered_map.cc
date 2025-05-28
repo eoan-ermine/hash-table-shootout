@@ -11,6 +11,8 @@ typedef boost::unordered_map<std::string, int64_t, std::hash<std::string>> str_h
 #define RESERVE_STR(size) str_hash.reserve(size); 
 #define LOAD_FACTOR(map) map.load_factor()
 
+#define INSERT_RANGE_INTO_HASH(it1, it2) hash.insert(it1, it2)
+#define INSERT_RANGE_INTO_STR_HASH(it1, it2) str_hash.insert(it1, it2)
 #define INSERT_INT_INTO_HASH(key, value) hash.insert(hash_t::value_type(key, value))
 #define DELETE_INT_FROM_HASH(key) hash.erase(key)
 #define FIND_INT_EXISTING_FROM_HASH(key) if(hash.find(key) == hash.end()) { printf("error"); exit(1); }

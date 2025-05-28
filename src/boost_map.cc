@@ -11,6 +11,8 @@ typedef boost::container::map<std::string, int64_t> str_hash_t;
 #define RESERVE_STR(size) ;
 #define LOAD_FACTOR(map) 1
 
+#define INSERT_RANGE_INTO_HASH(it1, it2) hash.insert(it1, it2)
+#define INSERT_RANGE_INTO_STR_HASH(it1, it2) str_hash.insert(it1, it2)
 #define INSERT_INT_INTO_HASH(key, value) hash.insert(hash_t::value_type(key, value))
 #define DELETE_INT_FROM_HASH(key) hash.erase(key)
 #define FIND_INT_EXISTING_FROM_HASH(key) if(hash.find(key) == hash.end()) { printf("error"); exit(1); }
