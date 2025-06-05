@@ -3,16 +3,16 @@ How to run these benchmarks:
 First, some prerequisites are:
 
 * make
-* gcc and recent g++ (4.3-ish?)
-* boost
-* google sparsehash
-* qt
+* clang 20 (because of `std::flat_map`)
+* Boost
 
 Now, run:
 
-$ make
-$ python bench.py
-$ python make_chart_data.py < output | python make_html.py
+```bash
+make
+python3 bench.py
+python3 make_chart_data.py < output | python3 make_html.py
+```
 
 Your charts are now in charts.html.
 
@@ -22,7 +22,9 @@ settings in charts-template.html.
 
 To run the benchmark at the highest priority possible, do this:
 
-    $ sudo nice -n-20 ionice -c1 -n0 sudo -u $USER python bench.py
+```bash
+sudo nice -n-20 ionice -c1 -n0 sudo -u $USER python bench.py
+```
 
 You might also want to disable any swap files/partitions so that swapping
 doesn't influence performance.  (The programs will just die if they try to
