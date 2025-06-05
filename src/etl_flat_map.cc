@@ -1,16 +1,18 @@
 #include <inttypes.h>
 #include <string>
-#include <flat_hash_map.hpp>
+#include "etl/flat_map.h"
 
-typedef ska::flat_hash_map<int64_t, int64_t, ska::power_of_two_std_hash<int64_t>> hash_t;
-typedef ska::flat_hash_map<std::string, int64_t, ska::power_of_two_std_hash<std::string>> str_hash_t;
+typedef etl::flat_map<int64_t, int64_t, 100'000> hash_t;
+typedef etl::flat_map<std::string, int64_t, 100'000> str_hash_t;
 
 #define SETUP hash_t hash; str_hash_t str_hash;
 
-#define RESERVE_INT(size) hash.reserve(size);
-#define RESERVE_STR(size) str_hash.reserve(size); 
-#define LOAD_FACTOR(map) map.load_factor()
+#define RESERVE_INT(size) ;
+#define RESERVE_STR(size) ;
+#define LOAD_FACTOR(map) 1
 
+#define INSERT_RANGE_INTO_HASH(it1, it2) hash.insert(it1, it2)
+#define INSERT_RANGE_INTO_STR_HASH(it1, it2) str_hash.insert(it1, it2)
 #define INSERT_INT_INTO_HASH(key, value) hash.insert(hash_t::value_type(key, value))
 #define DELETE_INT_FROM_HASH(key) hash.erase(key)
 #define FIND_INT_EXISTING_FROM_HASH(key) if(hash.find(key) == hash.end()) { printf("error"); exit(1); }
@@ -27,4 +29,3 @@ typedef ska::flat_hash_map<std::string, int64_t, ska::power_of_two_std_hash<std:
     if(str_hash.find(key) != str_hash.end()) { count++; }
 
 #include "template.c"
-

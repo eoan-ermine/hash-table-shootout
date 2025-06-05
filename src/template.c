@@ -149,6 +149,14 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "read_random_shuffle_range") {
         std::vector<std::int64_t> keys = get_random_shuffle_range_ints(num_keys);
+        std::vector<std::pair<std::int64_t, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::int64_t, std::int64_t>{key, value};
+        });
+
+        INSERT_RANGE_INTO_HASH(pairs.begin(), pairs.end());
+
         for(std::int64_t i = 0; i < num_keys; i++) {
             INSERT_INT_INTO_HASH(keys[i], value);
         }
@@ -185,9 +193,13 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "read_random_full") {
         std::vector<std::int64_t> keys = get_random_full_ints(num_keys);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_INT_INTO_HASH(keys[i], value);
-        }
+        std::vector<std::pair<std::int64_t, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::int64_t, std::int64_t>{key, value};
+        });
+
+        INSERT_RANGE_INTO_HASH(pairs.begin(), pairs.end());
         
         std::shuffle(keys.begin(), keys.end(), generator);
         
@@ -201,11 +213,13 @@ int main(int argc, char ** argv) {
     else if(test_type == "read_miss_random_full") {
         const std::vector<std::int64_t> keys_insert = get_random_full_ints(num_keys, 0, std::numeric_limits<std::int64_t>::max());
         const std::vector<std::int64_t> keys_read = get_random_full_ints(num_keys, std::numeric_limits<std::int64_t>::min(), -3);
-        
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_INT_INTO_HASH(keys_insert[i], value);
-        }
-        
+        std::vector<std::pair<std::int64_t, std::int64_t>> pairs;
+        pairs.reserve(keys_insert.size());
+        std::transform(keys_insert.begin(), keys_insert.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::int64_t, std::int64_t>{key, value};
+        });
+
+        INSERT_RANGE_INTO_HASH(pairs.begin(), pairs.end());
         
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {
@@ -215,10 +229,14 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "read_random_full_after_delete") {
         std::vector<std::int64_t> keys = get_random_full_ints(num_keys);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_INT_INTO_HASH(keys[i], value);
-        }
+        std::vector<std::pair<std::int64_t, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::int64_t, std::int64_t>{key, value};
+        });
         
+        INSERT_RANGE_INTO_HASH(pairs.begin(), pairs.end());
+
         std::shuffle(keys.begin(), keys.end(), generator);
         for(std::int64_t i = 0; i < num_keys / 2; i++) {
             DELETE_INT_FROM_HASH(keys[i]);
@@ -241,11 +259,14 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "iteration_random_full") {
         const std::vector<std::int64_t> keys = get_random_full_ints(num_keys);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_INT_INTO_HASH(keys[i], value);
-        }
+        std::vector<std::pair<std::int64_t, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::int64_t, std::int64_t>{key, value};
+        });
         
-        
+        INSERT_RANGE_INTO_HASH(pairs.begin(), pairs.end());
+ 
         measurements m;
         for(auto it = hash.begin(); it != hash.end(); ++it) {
             CHECK_INT_ITERATOR_VALUE(it, value);
@@ -254,12 +275,15 @@ int main(int argc, char ** argv) {
     
     else if(test_type == "delete_random_full") {
         std::vector<std::int64_t> keys = get_random_full_ints(num_keys);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_INT_INTO_HASH(keys[i], value);
-        }
-        
+        std::vector<std::pair<std::int64_t, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::int64_t, std::int64_t>{key, value};
+        });
+
+        INSERT_RANGE_INTO_HASH(pairs.begin(), pairs.end());
+
         std::shuffle(keys.begin(), keys.end(), generator);
-        
         
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {
@@ -294,12 +318,15 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "read_small_string") {
         std::vector<std::string> keys = get_random_alphanum_strings(num_keys, SMALL_STRING_SIZE);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_STR_INTO_HASH(keys[i], value);
-        }
-        
+        std::vector<std::pair<std::string, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::string, std::int64_t>{key, value};
+        });
+
+        INSERT_RANGE_INTO_STR_HASH(pairs.begin(), pairs.end());
+
         std::shuffle(keys.begin(), keys.end(), generator);
-        
         
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {
@@ -310,11 +337,13 @@ int main(int argc, char ** argv) {
     else if(test_type == "read_miss_small_string") {
         const std::vector<std::string> keys_insert = get_random_alphanum_strings(num_keys, SMALL_STRING_SIZE);
         const std::vector<std::string> keys_read = get_random_alphanum_strings(num_keys, SMALL_STRING_SIZE);
+        std::vector<std::pair<std::string, std::int64_t>> pairs;
+        pairs.reserve(keys_insert.size());
+        std::transform(keys_insert.begin(), keys_insert.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::string, std::int64_t>{key, value};
+        });
 
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_STR_INTO_HASH(keys_insert[i], value);
-        }
-        
+        INSERT_RANGE_INTO_STR_HASH(pairs.begin(), pairs.end());
         
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {
@@ -324,17 +353,20 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "read_small_string_after_delete") {
         std::vector<std::string> keys = get_random_alphanum_strings(num_keys, SMALL_STRING_SIZE);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_STR_INTO_HASH(keys[i], value);
-        }
-        
+        std::vector<std::pair<std::string, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::string, std::int64_t>{key, value};
+        });
+
+        INSERT_RANGE_INTO_STR_HASH(pairs.begin(), pairs.end());
+
         std::shuffle(keys.begin(), keys.end(), generator); 
         for(std::int64_t i = 0; i < num_keys / 2; i++) {
             DELETE_STR_FROM_HASH(keys[i]);
         }
         
         std::shuffle(keys.begin(), keys.end(), generator);
-        
         
         measurements m;
         std::int64_t nb_found = 0;
@@ -350,12 +382,15 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "delete_small_string") {
         std::vector<std::string> keys = get_random_alphanum_strings(num_keys, SMALL_STRING_SIZE);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_STR_INTO_HASH(keys[i], value);
-        }
-        
+        std::vector<std::pair<std::string, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::string, std::int64_t>{key, value};
+        });
+
+        INSERT_RANGE_INTO_STR_HASH(pairs.begin(), pairs.end());
+
         std::shuffle(keys.begin(), keys.end(), generator); 
-        
         
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {
@@ -370,8 +405,7 @@ int main(int argc, char ** argv) {
      */
     else if(test_type == "insert_string") {
         const std::vector<std::string> keys = get_random_alphanum_strings(num_keys, STRING_SIZE);
-        
-        
+   
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {
             INSERT_STR_INTO_HASH(keys[i], value);
@@ -380,8 +414,7 @@ int main(int argc, char ** argv) {
     
     else if(test_type == "insert_string_reserve") {
         const std::vector<std::string> keys = get_random_alphanum_strings(num_keys, STRING_SIZE);
-        
-        
+
         measurements m;
         RESERVE_STR(num_keys);
         for(std::int64_t i = 0; i < num_keys; i++) {
@@ -391,12 +424,15 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "read_string") {
         std::vector<std::string> keys = get_random_alphanum_strings(num_keys, STRING_SIZE); 
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_STR_INTO_HASH(keys[i], value);
-        }
-        
+        std::vector<std::pair<std::string, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::string, std::int64_t>{key, value};
+        });
+
+        INSERT_RANGE_INTO_STR_HASH(pairs.begin(), pairs.end());
+
         std::shuffle(keys.begin(), keys.end(), generator);   
-        
         
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {
@@ -407,12 +443,14 @@ int main(int argc, char ** argv) {
     else if(test_type == "read_miss_string") {
         const std::vector<std::string> keys_insert = get_random_alphanum_strings(num_keys, STRING_SIZE);
         const std::vector<std::string> keys_read = get_random_alphanum_strings(num_keys, STRING_SIZE);
+        std::vector<std::pair<std::string, std::int64_t>> pairs;
+        pairs.reserve(keys_insert.size());
+        std::transform(keys_insert.begin(), keys_insert.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::string, std::int64_t>{key, value};
+        });
+        
+        INSERT_RANGE_INTO_STR_HASH(pairs.begin(), pairs.end());
 
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_STR_INTO_HASH(keys_insert[i], value);
-        }
-        
-        
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {
             FIND_STR_MISSING_FROM_HASH(keys_read[i]);
@@ -421,17 +459,20 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "read_string_after_delete") {
         std::vector<std::string> keys = get_random_alphanum_strings(num_keys, STRING_SIZE);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_STR_INTO_HASH(keys[i], value);
-        }
+        std::vector<std::pair<std::string, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::string, std::int64_t>{key, value};
+        });
         
+        INSERT_RANGE_INTO_STR_HASH(pairs.begin(), pairs.end());
+
         std::shuffle(keys.begin(), keys.end(), generator); 
         for(std::int64_t i = 0; i < num_keys / 2; i++) {
             DELETE_STR_FROM_HASH(keys[i]);
         }
         
         std::shuffle(keys.begin(), keys.end(), generator);
-        
         
         measurements m;
         std::int64_t nb_found = 0;
@@ -447,12 +488,15 @@ int main(int argc, char ** argv) {
 
     else if(test_type == "delete_string") {
         std::vector<std::string> keys = get_random_alphanum_strings(num_keys, STRING_SIZE);
-        for(std::int64_t i = 0; i < num_keys; i++) {
-            INSERT_STR_INTO_HASH(keys[i], value);
-        }
+        std::vector<std::pair<std::string, std::int64_t>> pairs;
+        pairs.reserve(keys.size());
+        std::transform(keys.begin(), keys.end(), std::back_inserter(pairs), [value](const auto& key) {
+            return std::pair<std::string, std::int64_t>{key, value};
+        });
         
+        INSERT_RANGE_INTO_STR_HASH(pairs.begin(), pairs.end());
+
         std::shuffle(keys.begin(), keys.end(), generator); 
-        
         
         measurements m;
         for(std::int64_t i = 0; i < num_keys; i++) {

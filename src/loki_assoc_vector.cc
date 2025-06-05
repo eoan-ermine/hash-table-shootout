@@ -1,16 +1,15 @@
 #include <inttypes.h>
 #include <string>
-#include <google/dense_hash_map>
+#include "loki/AssocVector.h"
 
-typedef google::dense_hash_map<int64_t, int64_t, std::hash<int64_t>> hash_t;
-typedef google::dense_hash_map<std::string, int64_t, std::hash<std::string>> str_hash_t;
+typedef Loki::AssocVector<int64_t, int64_t> hash_t;
+typedef Loki::AssocVector<std::string, int64_t> str_hash_t;
 
-#define SETUP hash_t hash; hash.max_load_factor(0.9f); hash.set_empty_key(-1); hash.set_deleted_key(-2); \
-              str_hash_t str_hash; str_hash.max_load_factor(0.9f); str_hash.set_empty_key(""); str_hash.set_deleted_key("d");
+#define SETUP hash_t hash; str_hash_t str_hash;
 
-#define RESERVE_INT(size) hash.resize(size);
-#define RESERVE_STR(size) str_hash.resize(size);
-#define LOAD_FACTOR(map) map.load_factor()        
+#define RESERVE_INT(size) ;
+#define RESERVE_STR(size) ;
+#define LOAD_FACTOR(map) 1
 
 #define INSERT_INT_INTO_HASH(key, value) hash.insert(hash_t::value_type(key, value))
 #define DELETE_INT_FROM_HASH(key) hash.erase(key)
@@ -26,5 +25,5 @@ typedef google::dense_hash_map<std::string, int64_t, std::hash<std::string>> str
 #define FIND_STR_MISSING_FROM_HASH(key) if(str_hash.find(key) != str_hash.end()) { printf("error"); exit(5); }
 #define FIND_STR_EXISTING_FROM_HASH_COUNT(key, count) \
     if(str_hash.find(key) != str_hash.end()) { count++; }
-        
+
 #include "template.c"

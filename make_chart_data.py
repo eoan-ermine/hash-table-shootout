@@ -18,65 +18,39 @@ for line in lines:
         by_benchtype.setdefault("%s_memory"  % benchtype, {}).setdefault(program, []).append([nkeys, nbytes, load_factor])
 
 proper_names = OrderedDict([
+    ('std_map', 'std::map'),
+    ('std_flat_map', 'std::flat_map'),
     ('std_unordered_map', 'std::unordered_map'),
-    ('google_dense_hash_map', 'google::dense_hash_map'),
-    ('qt_qhash', 'QHash'),
-    ('tsl_sparse_map', 'tsl::sparse_map'),
-    ('tsl_hopscotch_map', 'tsl::hopscotch_map'),
-    ('tsl_robin_map', 'tsl::robin_map'),
-    ('tsl_hopscotch_map_store_hash', 'tsl::hopscotch_map (with StoreHash)'),
-    ('tsl_robin_map_store_hash', 'tsl::robin_map (with StoreHash)'),
-    ('tsl_hopscotch_map_mlf_0_5', 'tsl::hopscotch_map (0.5 mlf)'),
-    ('tsl_robin_map_mlf_0_9', 'tsl::robin_map (0.9 mlf)'),
-    ('tsl_ordered_map', 'tsl::ordered_map'),
-    ('tsl_robin_pg_map', 'tsl::robin_pg_map'),
-    ('ska_flat_hash_map', 'ska::flat_hash_map'),
-    ('google_dense_hash_map_mlf_0_9', 'google::dense_hash_map (0.9 mlf)'),
-    ('ska_flat_hash_map_power_of_two', 'ska::flat_hash_map (power of two)'),
-    ('google_sparse_hash_map', 'google::sparse_hash_map'),
+    ('boost_map', 'boost::containers::unordered_map'),
+    ('boost_flat_map', 'boost::containers::flat_map'),
     ('boost_unordered_map', 'boost::unordered_map'),
-    ('spp_sparse_hash_map', 'spp::sparse_hash_map'),
-    ('emilib_hash_map', 'emilib::HashMap'),
-    ('tsl_array_map', 'tsl::array_map'),
-    ('tsl_array_map_mlf_1_0', 'tsl::array_map (1.0 mlf)'),
+    # ('etl_flat_map', 'etl::flat_map')
 ])
 
 # do them in the desired order to make the legend not overlap the chart data
 # too much
 program_slugs = [
+    'std_map',
+    'std_flat_map',
     'std_unordered_map',
-    'google_dense_hash_map',
-    'qt_qhash',
-    'tsl_sparse_map',
-    'tsl_hopscotch_map',
-    'tsl_robin_map',
-    'tsl_hopscotch_map_store_hash',
-    'tsl_robin_map_store_hash',
-    'tsl_hopscotch_map_mlf_0_5',
-    'tsl_robin_map_mlf_0_9',
-    'tsl_ordered_map',
-    'tsl_robin_pg_map',
-    'ska_flat_hash_map',
-    'google_dense_hash_map_mlf_0_9',
-    'ska_flat_hash_map_power_of_two',
-    'google_sparse_hash_map',
+    'boost_map',
+    'boost_flat_map',
     'boost_unordered_map',
-    'spp_sparse_hash_map',
-    'emilib_hash_map',
-    'tsl_array_map',
-    'tsl_array_map_mlf_1_0',
+    'loki_assoc_vector',
+    'etl_flat_map"'
 ]
 
 # hashmap which will be shown (checkbox checked)
 default_programs_show = [
+    'std_map',
+    'std_flat_map',
     'std_unordered_map',
-    'google_dense_hash_map',
-    'qt_qhash',
-    'tsl_sparse_map',
-    'tsl_hopscotch_map',
-    'tsl_robin_map',
-    'tsl_hopscotch_map_store_hash',
-    'tsl_robin_map_store_hash']
+    'boost_map',
+    'boost_flat_map',
+    'boost_unordered_map',
+    'loki_assoc_vector',
+    # 'etl_flat_map'
+]
 
 chart_data = {}
 
